@@ -1,0 +1,7 @@
+name: PoaPacketListener
+version: '1'
+main: poa.poapacketlistener.PoaPacketListener
+api-version: '1.21'
+commands:
+    poapacket:
+        permission: poa.poapacket
