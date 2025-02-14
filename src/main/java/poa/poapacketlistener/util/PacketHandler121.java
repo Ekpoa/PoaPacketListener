@@ -7,9 +7,7 @@ import io.netty.channel.ChannelPromise;
 import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minecraft.network.protocol.Packet;
-import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
-import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
-import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.network.protocol.game.*;
 import net.minecraft.network.syncher.SynchedEntityData;
 import org.bukkit.Bukkit;
 import org.bukkit.entity.BlockDisplay;
@@ -116,8 +114,22 @@ public class PacketHandler121 extends ChannelDuplexHandler {
                     for (SynchedEntityData.DataValue<?> packedItem : dataPacket.packedItems()) {
                         message = message + packedItem.id() + " -> " + packedItem.value() + "\n";
                     }
+                }
 
+                else if(packet instanceof ClientboundLightUpdatePacket lightUpdatePacket){
+                    message = message + "\n" +
+                            "x " + lightUpdatePacket.getX() + "\n" +
+                            "z " + lightUpdatePacket.getZ() + "\n";
 
+                    final ClientboundLightUpdatePacketData lightData = lightUpdatePacket.getLightData();
+
+                    message = message +
+                            "bock y mask " + lightData.getBlockYMask() + "\n" +
+                            "empty block y mask " + lightData.getEmptyBlockYMask() + "\n" +
+                            "block updates " + lightData.getBlockUpdates() + "\n" +
+                            "sky updates " + lightData.getSkyUpdates() + "\n" +
+                            "empty sky y mask " + lightData.getEmptySkyYMask() + "\n" +
+                            "sky y mask " + lightData.getSkyYMask();
                 }
 
             }

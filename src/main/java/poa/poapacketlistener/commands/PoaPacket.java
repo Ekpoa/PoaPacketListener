@@ -119,7 +119,7 @@ public class PoaPacket implements CommandExecutor, TabCompleter {
 
     public static String nameToPacketName(String name) {
         for (String packetName : PacketHandler121.packetNames) {
-            if (packetName.toLowerCase().contains(name)) {
+            if (packetName.toLowerCase().contains(name.toLowerCase())) {
                 return packetName;
             }
         }
@@ -142,7 +142,7 @@ public class PoaPacket implements CommandExecutor, TabCompleter {
 
         for (String s : list) {
             if(s.toLowerCase().contains(args[args.length -1].toLowerCase()))
-                tr.add(s);
+                tr.add(s.replace("net.minecraft.network.protocol.game.", ""));
         }
 
         return tr;
