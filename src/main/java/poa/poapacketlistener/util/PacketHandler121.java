@@ -8,8 +8,11 @@ import net.kyori.adventure.text.Component;
 import net.kyori.adventure.text.minimessage.MiniMessage;
 import net.minecraft.network.protocol.Packet;
 import net.minecraft.network.protocol.game.ClientboundMoveEntityPacket;
+import net.minecraft.network.protocol.game.ClientboundSetEntityDataPacket;
 import net.minecraft.network.protocol.game.ServerboundPlayerInputPacket;
+import net.minecraft.network.syncher.SynchedEntityData;
 import org.bukkit.Bukkit;
+import org.bukkit.entity.BlockDisplay;
 import org.bukkit.entity.Player;
 import poa.poapacketlistener.PoaPacketListener;
 import poa.poapacketlistener.commands.PoaPacket;
@@ -51,10 +54,12 @@ public class PacketHandler121 extends ChannelDuplexHandler {
                 return;
 
 
+
             String message = "";
 
             if(!PoaPacket.listenList.isEmpty() && PoaPacket.listenList.contains(name)){
                 message = "<gray>" + player.getName() + " : <yellow>" + name;
+
             }
 
             if(!PoaPacket.broadcastList.contains(name) && PoaPacket.listenList.isEmpty()) {
@@ -104,6 +109,17 @@ public class PacketHandler121 extends ChannelDuplexHandler {
 
             if(!PoaPacket.listenList.isEmpty() && PoaPacket.listenList.contains(name)){
                 message = "<gray>" + player.getName() + " : <yellow>" + name;
+
+                if(packet instanceof ClientboundSetEntityDataPacket dataPacket){
+                    message = message + "\n";
+
+                    for (SynchedEntityData.DataValue<?> packedItem : dataPacket.packedItems()) {
+                        message = message + packedItem.id() + " -> " + packedItem.value() + "\n";
+                    }
+
+
+                }
+
             }
 
             if(!PoaPacket.broadcastList.contains(name) && PoaPacket.listenList.isEmpty()) {

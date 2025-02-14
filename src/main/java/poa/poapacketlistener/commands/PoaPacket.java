@@ -141,7 +141,7 @@ public class PoaPacket implements CommandExecutor, TabCompleter {
 
 
         for (String s : list) {
-            if(s.toLowerCase().startsWith(args[args.length -1].toLowerCase()))
+            if(s.toLowerCase().contains(args[args.length -1].toLowerCase()))
                 tr.add(s);
         }
 
